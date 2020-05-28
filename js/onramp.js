@@ -766,9 +766,40 @@ function main_loop() {
 //############################################
 // Acá de alguna manera se tiene que definir el rango de tiempo que va a correr la simulación
 console.log("first main execution");
+var myRun;
+let arregloCircunvalacion =[2553,2394,2443,2179];
+let arregloEntrada = [1111,1051,1072,956];
+var contador = 1;
+function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
+    clearInterval(myRun);
+    setParametros(cantidadEntrada,cantidadCircunvalacion);
+    contador++;
+    if(contador < 5){
 
+      mandarCorrer();
 
+    }
+    
+}
+
+function mandarCorrer(){
+  if(contador < 4){
+       x=setTimeout(pararPrograma,10000,arregloEntrada[contador],arregloCircunvalacion[contador]);
+  }else{
+
+      x=setTimeout(pararPrograma,10000,0,0);
+  }
+ 
+  myRun=setInterval(main_loop, 1000/fps);
+}
 
 //Función que corre el OnRamp por 1000/fps
-var myRun=setInterval(main_loop, 1000/fps);
+var x;
 
+setParametros(arregloEntrada[0],arregloCircunvalacion[0]);
+mandarCorrer();
+
+
+
+    
+  

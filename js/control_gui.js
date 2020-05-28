@@ -19,11 +19,11 @@ function pararPrograma(){
     var myRun=setInterval(main_loop, 1000/fps);
 
 }
-function setParametros(cantidadEntrada,cantidadCircunvalacion,tiempo){
+function setParametros(cantidadEntrada,cantidadCircunvalacion){
     var x;
     qIn=(cantidadCircunvalacion/1000)/3.6;
     qOn=cantidadEntrada/3600.;
-    slider_qIn= document.getElementById("slider_qIn");
+    slider_qIn= document.getElementById("slider_qIn"); // Flujo en circunvalacion
     slider_qInVal = document.getElementById("slider_qInVal");
     slider_qIn.value=3600*qIn;
     slider_qInVal.innerHTML=3600*qIn+" veh/h";
@@ -33,7 +33,7 @@ function setParametros(cantidadEntrada,cantidadCircunvalacion,tiempo){
         qIn=parseFloat(this.value/3600.);
     }
 
-    slider_qOn= document.getElementById("slider_qOn");
+    slider_qOn= document.getElementById("slider_qOn"); // Flujo en la rampa
     slider_qOnVal = document.getElementById("slider_qOnVal");
     slider_qOn.value=3600*qOn;
     slider_qOnVal.innerHTML=3600*qOn+" veh/h";
@@ -43,19 +43,6 @@ function setParametros(cantidadEntrada,cantidadCircunvalacion,tiempo){
         qOn=parseFloat(this.value/3600.);
     }
 
-    /*timewarp=6;
-    slider_timewarp = document.getElementById("slider_timewarp");
-    slider_timewarpVal = document.getElementById("slider_timewarpVal");
-    slider_timewarpVal.innerHTML=timewarp +" times";
-    slider_timewarp.value=timewarp;
-
-    slider_timewarp.oninput = function() {
-        slider_timewarpVal.innerHTML = this.value +" times";
-        timewarp=parseFloat(this.value);
-        dt=timewarp/fps;
-    }*/
-
-    x=setTimeout(pararPrograma,tiempo);
 }
 
 //################################################################
