@@ -36,7 +36,8 @@ function stationaryDetector(road,u,dtAggr){
     this.historyFlow[0]=0;
     this.historySpeed[0]=0;
     this.vehCount=0; // counting inside each aggregation interval (all lanes)
-    this.speedSum=0; // summing inside each aggregation interval
+    this.speedSum=0;
+    this.flujo // summing inside each aggregation interval
     this.nLanes=this.road.nLanes;
     this.vehNearOld=(this.u<0.5*this.road.roadLen) 
 	? this.road.findLeaderAt(this.u) : this.road.findFollowerAt(this.u);
@@ -91,8 +92,10 @@ stationaryDetector.prototype.display=function(textsize){
  
   ctx.font=textsize+'px Arial';
 
+  this.flujo = Math.round(3600*this.historyFlow[this.iAggr]);
   var flowStr="Flow: "+Math.round(3600*this.historyFlow[this.iAggr])
     +" veh/h";
+
   var speedStr="Speed: "+((this.historyFlow[this.iAggr]>0)
 			  ? Math.round(3.6*this.historySpeed[this.iAggr])
 			  : "--")

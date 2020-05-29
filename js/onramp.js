@@ -19,6 +19,7 @@ console.log(Math.random());          // Always 0.9364577392619949 with 42
 
 var userCanDistortRoads=false;
 var userCanDropObjects=true;
+var contador = 0;
 
 
 
@@ -386,6 +387,7 @@ truckImg = new Image();
 truckImg.src = 'figs/truck1Small.png';
 
 
+
 // init traffic light images
 
 traffLightRedImg = new Image();
@@ -486,6 +488,7 @@ function updateSim(){
   mainroad.updateModelsOfAllVehicles(longModelCar,longModelTruck,
 				       LCModelCar,LCModelTruck,
 				       LCModelMandatory);
+
 
   ramp.updateTruckFrac(fracTruck, fracTruckToleratedMismatch);
   ramp.updateModelsOfAllVehicles(longModelCar,longModelTruck,
@@ -665,14 +668,13 @@ function drawSim() {
   // (4) draw vehicles
   //!! all args at and after umin,umax=0,ramp.roadLen are optional
   // here only example for complete args (only in coffeemeterGame relevant
-
+//Dibuja carros
   ramp.drawVehicles(carImg,truckImg,obstacleImgs,scale,
 		    vmin_col,vmax_col,
 		    0,ramp.roadLen,
 		    movingObserver,0,
 		    center_xPhys-mainroad.traj_x(uObs)+ramp.traj_x(0),
 		    center_yPhys-mainroad.traj_y(uObs)+ramp.traj_y(0));
-
 
   mainroad.drawVehicles(carImg,truckImg,obstacleImgs,scale,
 			vmin_col,vmax_col,
@@ -769,8 +771,29 @@ console.log("first main execution");
 var myRun;
 let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
+let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
+let csvContent = "data:text/csv;charset=utf-8,";
 var contador = 1;
 function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
+    var obstaculo = false;
+    var p1 = detectors[0].flujo;
+    var p2 = detectors[1].flujo;
+    var p3 = detectors[2].flujo;
+    var promedio = (p1 + p2 + p3)/3; 
+    var hora =arregloHorasReales[contador-1];
+    //Meter una fila en el csv
+    var arregloCsv=[hora,obstaculo,promedio];
+    var fila = arregloCsv.join(",");
+    csvContent += fila + "\r\n";
+    if(contador == 4){
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "corrida_ejemplo.csv");
+      document.body.appendChild(link); // Required for FF
+
+      link.click(); // This will download the data file named "my_data.csv".
+    }
     clearInterval(myRun);
     setParametros(cantidadEntrada,cantidadCircunvalacion);
     contador++;
