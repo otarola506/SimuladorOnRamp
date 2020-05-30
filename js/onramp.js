@@ -766,26 +766,45 @@ function main_loop() {
 // (ii) when pressing the start button in *gui.js
 //  ("myRun=setInterval(main_loop, 1000/fps);")
 //############################################
-// Acá de alguna manera se tiene que definir el rango de tiempo que va a correr la simulación
 console.log("first main execution");
 var myRun;
 let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
 let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
 let csvContent = "data:text/csv;charset=utf-8,";
-var contador = 1;
+var cantidadCorridas = 10;
+var contadorCorridas = 0;
+
+var iteradorTasas = 0;
 function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
     var obstaculo = false;
     var p1 = detectors[0].flujo;
     var p2 = detectors[1].flujo;
     var p3 = detectors[2].flujo;
-    var promedio = (p1 + p2 + p3)/3; 
-    var hora =arregloHorasReales[contador-1];
+    var promedio = (p1 + p2 + p3) / 3; 
+    var iteradorHoras = 0;
+    if (iteradorTasas == 0){
+      iteradorHoras = 3;
+    }
+    else{
+      iteradorHoras = iteradorTasas -1;
+    }
+    var hora = arregloHorasReales[iteradorHoras];
     //Meter una fila en el csv
-    var arregloCsv=[hora,obstaculo,promedio];
+    var arregloCsv = [hora,obstaculo,promedio];
     var fila = arregloCsv.join(",");
     csvContent += fila + "\r\n";
-    if(contador == 4){
+    iteradorTasas++;
+    
+    if(iteradorTasas == 4){
+       iteradorTasas = 0;
+
+
+    }
+
+    contadorCorridas++;
+
+    if(contadorCorridas == cantidadCorridas){
       var encodedUri = encodeURI(csvContent);
       var link = document.createElement("a");
       link.setAttribute("href", encodedUri);
@@ -794,23 +813,23 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
 
       link.click(); // This will download the data file named "my_data.csv".
     }
+
+    
     clearInterval(myRun);
     setParametros(cantidadEntrada,cantidadCircunvalacion);
-    contador++;
-    if(contador < 5){
 
-      mandarCorrer();
+
+    if(contadorCorridas < cantidadCorridas ){
+
+      mandarCorrer(10000);
 
     }
     
 }
 
-function mandarCorrer(){
-  if(contador < 4){
-       x=setTimeout(pararPrograma,10000,arregloEntrada[contador],arregloCircunvalacion[contador]);
-  }else{
-
-      x=setTimeout(pararPrograma,10000,0,0);
+function mandarCorrer(tiempo){
+  if(contadorCorridas < cantidadCorridas){
+       x=setTimeout(pararPrograma,tiempo,arregloEntrada[iteradorTasas],arregloCircunvalacion[iteradorTasas]);
   }
  
   myRun=setInterval(main_loop, 1000/fps);
@@ -819,8 +838,10 @@ function mandarCorrer(){
 //Función que corre el OnRamp por 1000/fps
 var x;
 
-setParametros(arregloEntrada[0],arregloCircunvalacion[0]);
-mandarCorrer();
+setParametros(arregloEntrada[iteradorTasas],arregloCircunvalacion[iteradorTasas]);
+iteradorTasas++;
+mandarCorrer(10000);
+
 
 
 
