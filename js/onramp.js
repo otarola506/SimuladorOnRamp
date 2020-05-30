@@ -790,6 +790,12 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
       iteradorHoras = iteradorTasas -1;
     }
     var hora = arregloHorasReales[iteradorHoras];
+
+    if(contadorCorridas == 0){
+      var encabezado = ["Hora","Obstaculo","Cantidad"];
+      var fila = encabezado.join(",");
+       csvContent += fila + "\r\n";
+    }
     //Meter una fila en el csv
     var arregloCsv = [hora,obstaculo,promedio];
     var fila = arregloCsv.join(",");

@@ -26,7 +26,7 @@ function setParametros(cantidadEntrada,cantidadCircunvalacion){
     slider_qIn= document.getElementById("slider_qIn"); // Flujo en circunvalacion
     slider_qInVal = document.getElementById("slider_qInVal");
     slider_qIn.value=3600*qIn;
-    slider_qInVal.innerHTML=3600*qIn+" veh/h";
+    slider_qInVal.innerHTML=parseInt(3600*qIn)+" veh/h";
 
     slider_qIn.oninput = function() {
         slider_qInVal.innerHTML = this.value+" veh/h";
@@ -36,7 +36,7 @@ function setParametros(cantidadEntrada,cantidadCircunvalacion){
     slider_qOn= document.getElementById("slider_qOn"); // Flujo en la rampa
     slider_qOnVal = document.getElementById("slider_qOnVal");
     slider_qOn.value=3600*qOn;
-    slider_qOnVal.innerHTML=3600*qOn+" veh/h";
+    slider_qOnVal.innerHTML=parseInt(3600*qOn)+" veh/h";
 
     slider_qOn.oninput = function() {
         slider_qOnVal.innerHTML = this.value+" veh/h";
