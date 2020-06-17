@@ -502,7 +502,7 @@ TrafficObjects.prototype.activate=function(obj, road, u){
   if(!(typeof u === 'undefined')){ // external setting; must take care of all
     obj.u=u;
     //obj.lane=0.5*road.nLanes; // center, v=0
-    obj.lane=0; // !!! 
+    obj.lane=1; // !!! 
     obj.xPix=road.get_xPix(u,0,scale);
     obj.yPix=road.get_yPix(u,0,scale);
     obj.inDepot=false;

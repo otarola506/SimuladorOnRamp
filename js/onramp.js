@@ -338,11 +338,11 @@ var virtualStandingVeh=new vehicle(2, laneWidth, ramp.roadLen-0.9*taperLen, 0, 0
 
 ramp.veh.unshift(virtualStandingVeh);
 
-var nDet=3;
+var nDet=1;
 var detectors=[];
-detectors[0]=new stationaryDetector(mainroad,0.10*mainroadLen,10);
-detectors[1]=new stationaryDetector(mainroad,0.60*mainroadLen,10);
-detectors[2]=new stationaryDetector(mainroad,0.90*mainroadLen,10);
+detectors[0]=new stationaryDetector(ramp,0.40*rampLen,10);
+//detectors[1]=new stationaryDetector(mainroad,0.60*mainroadLen,10);
+//detectors[2]=new stationaryDetector(mainroad,0.90*mainroadLen,10);
 
 //</NETWORK>
 
@@ -434,7 +434,11 @@ rampImg=roadImgs1[nLanes_rmp-1];
 //############################################
 
 // TrafficObjects(canvas,nTL,nLimit,xRelDepot,yRelDepot,nRow,nCol)
-var trafficObjs=new TrafficObjects(canvas,1,3,0.60,0.50,3,2);
+var trafficObjs=new TrafficObjects(canvas,0,0,0.60,0.50,3,2);
+
+//Obstáculo en la calle
+var valla = trafficObjs.trafficObj[0];
+trafficObjs.activate(valla,mainroad,480);
 
 
 
@@ -772,16 +776,18 @@ let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
 let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
 let csvContent = "data:text/csv;charset=utf-8,";
-var cantidadCorridas = 50;
+var cantidadCorridas = 5;
 var contadorCorridas = 0;
+//Para activar el obstáculo
+//var valla = trafficObjs.trafficObj[1];
+//trafficObjs.activate(valla,mainroad,480);
+//trafficObjs.deactivate(valla);
+
 
 var iteradorTasas = 0;
 function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
     var obstaculo = "con obstaculo";
-    var p1 = detectors[0].flujo;
-    var p2 = detectors[1].flujo;
-    var p3 = detectors[2].flujo;
-    var promedio = (p1 + p2 + p3) / 3; 
+    var p1 = detectors[0].flujo; 
     var iteradorHoras = 0;
     if (iteradorTasas == 0){
       iteradorHoras = 3;
@@ -797,7 +803,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
        csvContent += fila + "\r\n";
     }
     //Meter una fila en el csv
-    var arregloCsv = [hora,obstaculo,promedio];
+    var arregloCsv = [hora,obstaculo,p1];
     var fila = arregloCsv.join(",");
     csvContent += fila + "\r\n";
     iteradorTasas++;
@@ -826,7 +832,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
 
     if(contadorCorridas < cantidadCorridas ){
 
-      mandarCorrer(30000);
+      mandarCorrer(5000);
 
     }
     
@@ -845,7 +851,7 @@ var x;
 
 setParametros(arregloEntrada[iteradorTasas],arregloCircunvalacion[iteradorTasas]);
 iteradorTasas++;
-mandarCorrer(30000);
+mandarCorrer(5000);
 
 
 
