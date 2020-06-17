@@ -431,7 +431,7 @@ function toggleTruckOvertakingBan(){
 
 // timewarp slider
 
-var timewarp=6;
+var timewarp=20;
 var slider_timewarp,slider_timewarpVal;
 if(document.getElementById("slider_timewarp")==null)
     console.log("no timewarp slider");
@@ -803,7 +803,7 @@ else{
 
 // MOBIL_bBiasRight_car slider
 
-var MOBIL_bBiasRight_car=0.4; 
+var MOBIL_bBiasRight_car=-1; 
 var slider_MOBIL_bBiasRight_car,slider_MOBIL_bBiasRight_carVal;
 if(document.getElementById("slider_MOBIL_bBiasRight_car")===null) 
     console.log("no  MOBIL_bBiasRight_car slider");
@@ -825,7 +825,7 @@ else{
 
 // MOBIL_bBiasRight_truck slider
 
-var MOBIL_bBiasRight_truck=0.4; 
+var MOBIL_bBiasRight_truck=-1; 
 var slider_MOBIL_bBiasRight_truck,slider_MOBIL_bBiasRight_truckVal;
 if(document.getElementById("slider_MOBIL_bBiasRight_truck")===null) 
     console.log("no  MOBIL_bBiasRight_truck slider");

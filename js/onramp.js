@@ -772,12 +772,12 @@ let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
 let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
 let csvContent = "data:text/csv;charset=utf-8,";
-var cantidadCorridas = 10;
+var cantidadCorridas = 50;
 var contadorCorridas = 0;
 
 var iteradorTasas = 0;
 function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
-    var obstaculo = false;
+    var obstaculo = "con obstaculo";
     var p1 = detectors[0].flujo;
     var p2 = detectors[1].flujo;
     var p3 = detectors[2].flujo;
@@ -805,7 +805,6 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
     if(iteradorTasas == 4){
        iteradorTasas = 0;
 
-
     }
 
     contadorCorridas++;
@@ -827,7 +826,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
 
     if(contadorCorridas < cantidadCorridas ){
 
-      mandarCorrer(10000);
+      mandarCorrer(30000);
 
     }
     
@@ -846,7 +845,7 @@ var x;
 
 setParametros(arregloEntrada[iteradorTasas],arregloCircunvalacion[iteradorTasas]);
 iteradorTasas++;
-mandarCorrer(10000);
+mandarCorrer(30000);
 
 
 
