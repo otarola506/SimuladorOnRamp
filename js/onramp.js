@@ -747,6 +747,24 @@ function drawSim() {
 } // drawSim
 
  
+ function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 
 
@@ -776,7 +794,7 @@ let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
 let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
 let csvContent = "data:text/csv;charset=utf-8,";
-var cantidadCorridas = 5;
+var cantidadCorridas = 4;
 var contadorCorridas = 0;
 //Para activar el obstáculo
 //var valla = trafficObjs.trafficObj[1];
@@ -785,8 +803,9 @@ var contadorCorridas = 0;
 
 
 var iteradorTasas = 0;
+var obstaculo = "con obstaculo";
+var matrizGeneral = []
 function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
-    var obstaculo = "con obstaculo";
     var p1 = detectors[0].flujo; 
     var iteradorHoras = 0;
     if (iteradorTasas == 0){
@@ -804,6 +823,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
     }
     //Meter una fila en el csv
     var arregloCsv = [hora,obstaculo,p1];
+    matrizGeneral.push(arregloCsv);
     var fila = arregloCsv.join(",");
     csvContent += fila + "\r\n";
     iteradorTasas++;
@@ -815,7 +835,20 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
 
     contadorCorridas++;
 
+    if (contadorCorridas == cantidadCorridas/2){
+        myRestartFunction();
+        cantidadEntrada= 0;
+        cantidadCircunvalacion = 0;
+        iteradorTasas = 1;
+        obstaculo = "sin obstaculo";
+        trafficObjs.deactivate(valla);
+
+
+
+    } 
+
     if(contadorCorridas == cantidadCorridas){
+      shuffle(matrizGeneral); //Aleatoriza la matriz
       var encodedUri = encodeURI(csvContent);
       var link = document.createElement("a");
       link.setAttribute("href", encodedUri);
