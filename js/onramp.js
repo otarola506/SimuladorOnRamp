@@ -765,6 +765,46 @@ function drawSim() {
 
   return array;
 }
+function objectToCSV(dataObject){
+  var dataArray = new Array;
+  for (var o in dataObject) {
+      var innerValue = dataObject[o].toString();
+      var result = innerValue.replace(/"/g, '""');
+      dataArray.push(result);
+  }
+  return dataArray.join(",") + '\n';
+
+
+}
+
+function exportToCsv(arrayOfObjects){
+  if (!arrayOfObjects.length) {
+        return;
+    }
+
+    var csvContent = "data:text/csv;charset=utf-8,";
+
+    // headers
+    csvContent += 'Hora,Obstaculo,Cantidad\n'
+
+    arrayOfObjects.forEach(function(item){
+        csvContent += objectToCSV(item);
+    }); 
+
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "datos.csv");
+    document.body.appendChild(link); // Required for FF
+
+    link.click();
+
+
+
+}
+
+
+
 
 
 
@@ -793,13 +833,8 @@ var myRun;
 let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
 let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
-let csvContent = "data:text/csv;charset=utf-8,";
-var cantidadCorridas = 4;
+var cantidadCorridas = 10;
 var contadorCorridas = 0;
-//Para activar el obstáculo
-//var valla = trafficObjs.trafficObj[1];
-//trafficObjs.activate(valla,mainroad,480);
-//trafficObjs.deactivate(valla);
 
 
 var iteradorTasas = 0;
@@ -815,17 +850,8 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
       iteradorHoras = iteradorTasas -1;
     }
     var hora = arregloHorasReales[iteradorHoras];
-
-    if(contadorCorridas == 0){
-      var encabezado = ["Hora","Obstaculo","Cantidad"];
-      var fila = encabezado.join(",");
-       csvContent += fila + "\r\n";
-    }
-    //Meter una fila en el csv
     var arregloCsv = [hora,obstaculo,p1];
     matrizGeneral.push(arregloCsv);
-    var fila = arregloCsv.join(",");
-    csvContent += fila + "\r\n";
     iteradorTasas++;
     
     if(iteradorTasas == 4){
@@ -849,13 +875,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
 
     if(contadorCorridas == cantidadCorridas){
       shuffle(matrizGeneral); //Aleatoriza la matriz
-      var encodedUri = encodeURI(csvContent);
-      var link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "corrida_ejemplo.csv");
-      document.body.appendChild(link); // Required for FF
-
-      link.click(); // This will download the data file named "my_data.csv".
+      exportToCsv(matrizGeneral);
     }
 
     
@@ -865,7 +885,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
 
     if(contadorCorridas < cantidadCorridas ){
 
-      mandarCorrer(5000);
+      mandarCorrer(10000);
 
     }
     
@@ -884,7 +904,7 @@ var x;
 
 setParametros(arregloEntrada[iteradorTasas],arregloCircunvalacion[iteradorTasas]);
 iteradorTasas++;
-mandarCorrer(5000);
+mandarCorrer(10000);
 
 
 
