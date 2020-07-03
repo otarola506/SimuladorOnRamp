@@ -508,7 +508,7 @@ else{
 
 // truck fraction slider
 
-var fracTruck=0.10; // 0.10
+var fracTruck=0.05; // 0.10
 var slider_fracTruck;
 var slider_fracTruckVal;
 if(document.getElementById("slider_fracTruck")===null) 

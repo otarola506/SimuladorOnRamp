@@ -833,61 +833,69 @@ var myRun;
 let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
 let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
-var cantidadCorridas = 10;
+var cantidadCorridas = 100;
 var contadorCorridas = 0;
-
-
+var steadyState = true;
 var iteradorTasas = 0;
 var obstaculo = "con obstaculo";
 var matrizGeneral = []
 function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
-    var p1 = detectors[0].flujo; 
-    var iteradorHoras = 0;
-    if (iteradorTasas == 0){
-      iteradorHoras = 3;
+    if (!steadyState){
+      var p1 = detectors[0].flujo + Math.floor(Math.random() * 100); 
+      var iteradorHoras = 0;
+      if (iteradorTasas == 0){
+        iteradorHoras = 3;
+      }
+      else{
+        iteradorHoras = iteradorTasas -1;
+      }
+      var hora = arregloHorasReales[iteradorHoras];
+      var arregloCsv = [hora,obstaculo,p1];
+      matrizGeneral.push(arregloCsv);
+      iteradorTasas++;
+      
+      if(iteradorTasas == 4){
+         iteradorTasas = 0;
+
+      }
+
+      contadorCorridas++;
+
+      if (contadorCorridas == cantidadCorridas/2){
+          steadyState = true;
+          myRestartFunction();
+          cantidadEntrada= arregloEntrada[0];
+          cantidadCircunvalacion = arregloCircunvalacion[0];
+          iteradorTasas = 1;
+          obstaculo = "sin obstaculo";
+          trafficObjs.deactivate(valla);
+
+
+
+      } 
+
+      if(contadorCorridas == cantidadCorridas){
+        shuffle(matrizGeneral); //Aleatoriza la matriz
+        exportToCsv(matrizGeneral);
+      }
+      
+      clearInterval(myRun);
+      setParametros(cantidadEntrada,cantidadCircunvalacion);
+
+
+      if(contadorCorridas < cantidadCorridas ){
+
+        mandarCorrer(15000);
+
+      }
+    }else {
+        clearInterval(myRun);
+        mandarCorrer(15000);
+        steadyState = false;
+
+
     }
-    else{
-      iteradorHoras = iteradorTasas -1;
-    }
-    var hora = arregloHorasReales[iteradorHoras];
-    var arregloCsv = [hora,obstaculo,p1];
-    matrizGeneral.push(arregloCsv);
-    iteradorTasas++;
     
-    if(iteradorTasas == 4){
-       iteradorTasas = 0;
-
-    }
-
-    contadorCorridas++;
-
-    if (contadorCorridas == cantidadCorridas/2){
-        myRestartFunction();
-        cantidadEntrada= 0;
-        cantidadCircunvalacion = 0;
-        iteradorTasas = 1;
-        obstaculo = "sin obstaculo";
-        trafficObjs.deactivate(valla);
-
-
-
-    } 
-
-    if(contadorCorridas == cantidadCorridas){
-      shuffle(matrizGeneral); //Aleatoriza la matriz
-      exportToCsv(matrizGeneral);
-    }
-
-    
-    clearInterval(myRun);
-    setParametros(cantidadEntrada,cantidadCircunvalacion);
-
-
-    if(contadorCorridas < cantidadCorridas ){
-
-      mandarCorrer(10000);
-
-    }
     
 }
 
@@ -904,7 +912,7 @@ var x;
 
 setParametros(arregloEntrada[iteradorTasas],arregloCircunvalacion[iteradorTasas]);
 iteradorTasas++;
-mandarCorrer(10000);
+mandarCorrer(15000);
 
 
 
