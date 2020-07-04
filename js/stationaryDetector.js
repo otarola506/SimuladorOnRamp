@@ -10,12 +10,12 @@ updating its counts every dtAggr seconds.
 The macroscopic output also aggregates over all lanes while the 
 microscopic output also gives the lane index of the passage event
 
-@param road:          the road segement at which the detector is positioned
-@param u:             the logical longitudinal coordinate [m] of the detector
-@param dtAggr:        aggregation time [s] of the macroscopic output
+@param road:          the road segement at which the detector is positioned.
+@param u:             the logical longitudinal coordinate [m] of the detector.
+@param dtAggr:        aggregation time [s] of the macroscopic output.
 */
 
-function stationaryDetector(road,u,dtAggr){
+function stationaryDetector(road,u,dtAggr){ 
     console.log("in stationaryDetector cstr: road=",road);
     this.road=road;
     this.u=u;
@@ -37,7 +37,8 @@ function stationaryDetector(road,u,dtAggr){
     this.historySpeed[0]=0;
     this.vehCount=0; // counting inside each aggregation interval (all lanes)
     this.speedSum=0;
-    this.flujo // summing inside each aggregation interval
+    this.flujo = 0;      // summing inside each aggregation interval
+    this.promedioFlujo = 0; // Calculo del promedio de lo que se tiene en history flow.
     this.nLanes=this.road.nLanes;
     this.vehNearOld=(this.u<0.5*this.road.roadLen) 
 	? this.road.findLeaderAt(this.u) : this.road.findFollowerAt(this.u);
@@ -61,8 +62,8 @@ stationaryDetector.prototype.update=function(time,dt){
 
     if(time>=this.iAggr*this.dtAggr+this.dtAggr){
       this.iAggr++;
-      this.historyFlow[this.iAggr]=this.vehCount/this.dtAggr;
-      this.historySpeed[this.iAggr]=this.speedSum/this.vehCount;
+      this.historyFlow[this.iAggr]=this.vehCount/this.dtAggr; // Esta es la fórmula de flujo, dtAggr
+      this.historySpeed[this.iAggr]=this.speedSum/this.vehCount; //velocidad
       this.vehCount=0;
       this.speedSum=0;
       if(false){
@@ -82,12 +83,14 @@ stationaryDetector.prototype.reset=function(){
   this.historySpeed=[];
   this.historyFlow[0]=0;
   this.historySpeed[0]=0;
-  this.vehCount=0; // counting inside each aggregation interval (all lanes)
+  this.vehCount=0;
+  this.promedioFlujo = 0; 
+  this.flujo = 0;                                    // counting inside each aggregation interval (all lanes)
   this.speedSum=0; // summing inside each aggregation interval
 }
 
 
-stationaryDetector.prototype.display=function(textsize){
+stationaryDetector.prototype.display=function(textsize){ //Funcion para el display del textbox
     //console.log("in stationaryDetector.display(textsize)");
  
   ctx.font=textsize+'px Arial';
@@ -100,6 +103,13 @@ stationaryDetector.prototype.display=function(textsize){
 			  ? Math.round(3.6*this.historySpeed[this.iAggr])
 			  : "--")
 	+" km/h";
+
+  var total = 0;
+  for(var i = 0; i< historyFlow.length; i++)
+  {
+      total += this.historyFlow[i];
+  }
+  this.promedioFlujo = total / iAggr; // Se podria usar el iAggr o el historyFlow.length
  
 
     var phi=this.road.get_phi(this.u);

@@ -841,7 +841,7 @@ var obstaculo = "con obstaculo";
 var matrizGeneral = []
 function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
     if (!steadyState){
-      var p1 = detectors[0].flujo + Math.floor(Math.random() * 100); 
+      var p1 = detectors[0].promedioFlujo; 
       var iteradorHoras = 0;
       if (iteradorTasas == 0){
         iteradorHoras = 3;
@@ -880,6 +880,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
       }
       
       clearInterval(myRun);
+      detectors[0].reset();
       setParametros(cantidadEntrada,cantidadCircunvalacion);
 
 
@@ -890,6 +891,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
       }
     }else {
         clearInterval(myRun);
+        detectors[0].reset();
         mandarCorrer(15000);
         steadyState = false;
 
