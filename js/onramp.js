@@ -340,7 +340,7 @@ ramp.veh.unshift(virtualStandingVeh);
 
 var nDet=1;
 var detectors=[];
-detectors[0]=new stationaryDetector(ramp,0.40*rampLen,10);
+detectors[0]=new stationaryDetector(ramp,0.40*rampLen,75);
 //detectors[1]=new stationaryDetector(mainroad,0.60*mainroadLen,10);
 //detectors[2]=new stationaryDetector(mainroad,0.90*mainroadLen,10);
 
@@ -833,7 +833,7 @@ var myRun;
 let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
 let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
-var cantidadCorridas = 100;
+var cantidadCorridas = 50;
 var contadorCorridas = 0;
 var steadyState = true;
 var iteradorTasas = 0;

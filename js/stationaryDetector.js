@@ -105,11 +105,11 @@ stationaryDetector.prototype.display=function(textsize){ //Funcion para el displ
 	+" km/h";
 
   var total = 0;
-  for(var i = 0; i< historyFlow.length; i++)
+  for(var i = 0; i< this.historyFlow.length; i++)
   {
       total += this.historyFlow[i];
   }
-  this.promedioFlujo = total / iAggr; // Se podria usar el iAggr o el historyFlow.length
+  this.promedioFlujo =Math.round((total / this.historyFlow.length)*3600); // Se podria usar el iAggr o el historyFlow.length
  
 
     var phi=this.road.get_phi(this.u);
