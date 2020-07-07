@@ -31,6 +31,7 @@ function stationaryDetector(road,u,dtAggr){
     // initializing macroscopic records
 
     this.iAggr=0;
+    this.iAggrTimer = 0;
     this.historyFlow=[];
     this.historySpeed=[];
     this.historyFlow[0]=0;
@@ -60,18 +61,27 @@ stationaryDetector.prototype.update=function(time,dt){
     }
 
 
-    if(time>=this.iAggr*this.dtAggr+this.dtAggr){
-      this.iAggr++;
+    if(time>=this.iAggrTimer*this.dtAggr+this.dtAggr){
+      console.log("Tasa Flujo:\n"+"Cantidad Veh:\n"+this.vehCount+"\nResultado:\n"+this.vehCount/this.dtAggr);
       this.historyFlow[this.iAggr]=this.vehCount/this.dtAggr; // Esta es la fórmula de flujo, dtAggr
       this.historySpeed[this.iAggr]=this.speedSum/this.vehCount; //velocidad
       this.vehCount=0;
       this.speedSum=0;
+      var total = 0;
+      for(var i = 0; i< this.historyFlow.length; i++)
+      {
+          total += this.historyFlow[i];
+      }
+      this.promedioFlujo =Math.round((total / this.historyFlow.length)*3600); // Se podria usar el iAggr o el historyFlow.length
+      console.log("Arreglo de flujos:\n"+this.historyFlow);
+      this.iAggr++;
+      this.iAggrTimer++;
       if(false){
-	console.log("\nnew aggregation:",
-		    " this.historyFlow[",this.iAggr,"]=",
-		    this.historyFlow[this.iAggr],
-		    " this.historySpeed[",this.iAggr,"]=",
-		    this.historySpeed[this.iAggr]);
+	       console.log("\nnew aggregation:",
+		      " this.historyFlow[",this.iAggr,"]=",
+		      this.historyFlow[this.iAggr],
+		     " this.historySpeed[",this.iAggr,"]=",
+		     this.historySpeed[this.iAggr]);
       }
     }
 }
@@ -79,6 +89,7 @@ stationaryDetector.prototype.update=function(time,dt){
 
 stationaryDetector.prototype.reset=function(){
   this.iAggr=0;
+  console.log("Estoy reseteando los valores");
   this.historyFlow=[];
   this.historySpeed=[];
   this.historyFlow[0]=0;
@@ -104,13 +115,8 @@ stationaryDetector.prototype.display=function(textsize){ //Funcion para el displ
 			  : "--")
 	+" km/h";
 
-  var total = 0;
-  for(var i = 0; i< this.historyFlow.length; i++)
-  {
-      total += this.historyFlow[i];
-  }
-  this.promedioFlujo =Math.round((total / this.historyFlow.length)*3600); // Se podria usar el iAggr o el historyFlow.length
- 
+  
+  
 
     var phi=this.road.get_phi(this.u);
     var cphi=Math.cos(phi);

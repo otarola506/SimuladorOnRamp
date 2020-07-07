@@ -340,7 +340,7 @@ ramp.veh.unshift(virtualStandingVeh);
 
 var nDet=1;
 var detectors=[];
-detectors[0]=new stationaryDetector(ramp,0.40*rampLen,75);
+detectors[0]=new stationaryDetector(ramp,0.40*rampLen,60);
 //detectors[1]=new stationaryDetector(mainroad,0.60*mainroadLen,10);
 //detectors[2]=new stationaryDetector(mainroad,0.90*mainroadLen,10);
 
@@ -850,6 +850,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
         iteradorHoras = iteradorTasas -1;
       }
       var hora = arregloHorasReales[iteradorHoras];
+      console.log("Hora: " + hora);
       var arregloCsv = [hora,obstaculo,p1];
       matrizGeneral.push(arregloCsv);
       iteradorTasas++;
@@ -863,6 +864,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
 
       if (contadorCorridas == cantidadCorridas/2){
           steadyState = true;
+          detectors[0].iAggrTimer = 0;
           myRestartFunction();
           cantidadEntrada= arregloEntrada[0];
           cantidadCircunvalacion = arregloCircunvalacion[0];
