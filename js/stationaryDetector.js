@@ -89,7 +89,7 @@ stationaryDetector.prototype.update=function(time,dt){
 
 stationaryDetector.prototype.reset=function(){
   this.iAggr=0;
-  console.log("Estoy reseteando los valores");
+  console.log("RESETEANDO VALORES");
   this.historyFlow=[];
   this.historySpeed=[];
   this.historyFlow[0]=0;

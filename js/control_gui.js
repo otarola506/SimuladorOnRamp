@@ -99,16 +99,16 @@ function myRestartFunction(){
 
   // reset all detectors (each detector knows which road it is at)
 
-  for(var iDet=0; iDet<detectors.length; iDet++){
+  /*for(var iDet=0; iDet<detectors.length; iDet++){
     detectors[iDet].reset();
-  }
+  }*/
 
    // activate thread if stopped
 
   if(isStopped){
     isStopped=false;
     document.getElementById("startStop").src="figs/buttonStop3_small.png";
-    myRun=setInterval(main_loop, 1000/fps);
+    //myRun=setInterval(main_loop, 1000/fps);
   }
 
 }

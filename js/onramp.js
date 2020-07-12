@@ -340,7 +340,7 @@ ramp.veh.unshift(virtualStandingVeh);
 
 var nDet=1;
 var detectors=[];
-detectors[0]=new stationaryDetector(ramp,0.40*rampLen,60);
+detectors[0]=new stationaryDetector(ramp,0.40*rampLen,30);
 //detectors[1]=new stationaryDetector(mainroad,0.60*mainroadLen,10);
 //detectors[2]=new stationaryDetector(mainroad,0.90*mainroadLen,10);
 
@@ -785,7 +785,7 @@ function exportToCsv(arrayOfObjects){
     var csvContent = "data:text/csv;charset=utf-8,";
 
     // headers
-    csvContent += 'Hora,Obstaculo,Cantidad\n'
+    csvContent += 'Observacion,Hora,Obstaculo,Cantidad\n'
 
     arrayOfObjects.forEach(function(item){
         csvContent += objectToCSV(item);
@@ -794,7 +794,7 @@ function exportToCsv(arrayOfObjects){
     var encodedUri = encodeURI(csvContent);
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "datos.csv");
+    link.setAttribute("download", "datos2000.csv");
     document.body.appendChild(link); // Required for FF
 
     link.click();
@@ -833,13 +833,14 @@ var myRun;
 let arregloCircunvalacion =[2553,2394,2443,2179];
 let arregloEntrada = [1111,1051,1072,956];
 let arregloHorasReales = ["7-8","8-9","5-6","6-7"];
-var cantidadCorridas = 50;
+var cantidadCorridas = 2000;
 var contadorCorridas = 0;
 var steadyState = true;
 var iteradorTasas = 0;
 var obstaculo = "con obstaculo";
 var matrizGeneral = []
 function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
+    console.log("CORRIDA: "+ contadorCorridas);
     if (!steadyState){
       var p1 = detectors[0].promedioFlujo; 
       var iteradorHoras = 0;
@@ -851,7 +852,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
       }
       var hora = arregloHorasReales[iteradorHoras];
       console.log("Hora: " + hora);
-      var arregloCsv = [hora,obstaculo,p1];
+      var arregloCsv = [contadorCorridas,hora,obstaculo,p1];
       matrizGeneral.push(arregloCsv);
       iteradorTasas++;
       
@@ -863,6 +864,7 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
       contadorCorridas++;
 
       if (contadorCorridas == cantidadCorridas/2){
+          console.log("--------------------------------------LA MITAD DE LAS CORRIDAS --------------------------------------------------");
           steadyState = true;
           detectors[0].iAggrTimer = 0;
           myRestartFunction();
@@ -871,6 +873,8 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
           iteradorTasas = 1;
           obstaculo = "sin obstaculo";
           trafficObjs.deactivate(valla);
+          console.log("---------------------------------SE DESACTIVO EL OBSTACULO ------------------------------------------------------");
+
 
 
 
@@ -888,13 +892,13 @@ function pararPrograma(cantidadEntrada,cantidadCircunvalacion){
 
       if(contadorCorridas < cantidadCorridas ){
 
-        mandarCorrer(15000);
-
+        mandarCorrer(6000);
       }
+
     }else {
         clearInterval(myRun);
         detectors[0].reset();
-        mandarCorrer(15000);
+        mandarCorrer(6000);
         steadyState = false;
 
 
@@ -916,7 +920,7 @@ var x;
 
 setParametros(arregloEntrada[iteradorTasas],arregloCircunvalacion[iteradorTasas]);
 iteradorTasas++;
-mandarCorrer(15000);
+mandarCorrer(6000);
 
 
 
